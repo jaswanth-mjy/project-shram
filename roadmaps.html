@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Career Roadmaps - Project Shram">
+    <title>Roadmaps | Project Shram</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Mono', monospace;
+            background: #000;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 255, 255, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(0, 255, 136, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 2px solid #00ffff;
+            margin-bottom: 3rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #00ffff;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid #00ffff;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateX(-5px);
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #00ffff;
+            margin: 1rem 0;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .roadmaps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .roadmap-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .roadmap-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #00ffff, #00ff88);
+        }
+
+        .roadmap-card:hover {
+            border-color: #00ffff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+        }
+
+        .roadmap-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .roadmap-title {
+            color: #00ffff;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .roadmap-duration {
+            color: #00ff88;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .roadmap-description {
+            color: #888;
+            margin: 1rem 0;
+            line-height: 1.8;
+        }
+
+        .phases {
+            margin: 1.5rem 0;
+        }
+
+        .phase {
+            background: rgba(0, 255, 255, 0.05);
+            border-left: 3px solid #00ffff;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+
+        .phase-title {
+            color: #00ffff;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .phase-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        .phase-items li {
+            color: #666;
+            padding: 0.3rem 0;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .phase-items li::before {
+            content: '→';
+            color: #00ff88;
+            position: absolute;
+            left: 0;
+        }
+
+        .coming-soon {
+            text-align: center;
+            padding: 3rem;
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px dashed rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .coming-soon h3 {
+            color: #00ffff;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .roadmaps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="grid-overlay"></div>
+
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-link">← Back to Home</a>
+            <h1>&lt;ROADMAPS /&gt;</h1>
+            <p class="subtitle">Step-by-step career paths for aspiring developers</p>
+        </div>
+
+        <div class="roadmaps-grid">
+            <!-- Frontend Developer -->
+            <div class="roadmap-card">
+                <div class="roadmap-icon">🎨</div>
+                <h2 class="roadmap-title">Frontend Developer</h2>
+                <p class="roadmap-duration">6-12 Months • Beginner Friendly</p>
+                <p class="roadmap-description">
+                    Become a frontend developer and create beautiful, responsive web applications.
+                </p>
+                <div class="phases">
+                    <div class="phase">
+                        <div class="phase-title">Phase 1: Foundations (2-3 months)</div>
+                        <ul class="phase-items">
+                            <li>HTML5, CSS3, JavaScript basics</li>
+                            <li>Responsive design, Flexbox, Grid</li>
+                            <li>Git & version control</li>
+                        </ul>
+                    </div>
+                    <div class="phase">
+                        <div class="phase-title">Phase 2: Modern Tools (2-3 months)</div>
+                        <ul class="phase-items">
+                            <li>React/Vue/Angular</li>
+                            <li>State management</li>
+                            <li>Build tools & bundlers</li>
+                        </ul>
+                    </div>
+                    <div class="phase">
+                        <div class="phase-title">Phase 3: Advanced (2-4 months)</div>
+                        <ul class="phase-items">
+                            <li>TypeScript</li>
+                            <li>Testing, optimization</li>
+                            <li>Portfolio projects</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Backend Developer -->
+            <div class="roadmap-card">
+                <div class="roadmap-icon">🔧</div>
+                <h2 class="roadmap-title">Backend Developer</h2>
+                <p class="roadmap-duration">8-12 Months • Intermediate</p>
+                <p class="roadmap-description">
+                    Master server-side development, databases, and API design.
+                </p>
+                <div class="phases">
+                    <div class="phase">
+                        <div class="phase-title">Phase 1: Foundations (2-3 months)</div>
+                        <ul class="phase-items">
+                            <li>Choose language (Python/Node.js/Java)</li>
+                            <li>Web frameworks, REST APIs</li>
+                            <li>SQL databases</li>
+                        </ul>
+                    </div>
+                    <div class="phase">
+                        <div class="phase-title">Phase 2: Advanced (3-4 months)</div>
+                        <ul class="phase-items">
+                            <li>Authentication & authorization</li>
+                            <li>NoSQL databases</li>
+                            <li>Caching, message queues</li>
+                        </ul>
+                    </div>
+                    <div class="phase">
+                        <div class="phase-title">Phase 3: Production (3-5 months)</div>
+                        <ul class="phase-items">
+                            <li>Docker, CI/CD</li>
+                            <li>Cloud platforms (AWS/Azure)</li>
+                            <li>Microservices architecture</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full Stack Developer -->
+            <div class="roadmap-card">
+                <div class="roadmap-icon">💻</div>
+                <h2 class="roadmap-title">Full Stack Developer</h2>
+                <p class="roadmap-duration">12-18 Months • Comprehensive</p>
+                <p class="roadmap-description">
+                    Master both frontend and backend development for end-to-end application building.
+                </p>
+                <div class="phases">
+                    <div class="phase">
+                        <div class="phase-title">Phase 1: Frontend (3-4 months)</div>
+                        <ul class="phase-items">
+                            <li>HTML, CSS, JavaScript</li>
+                            <li>React/Vue framework</li>
+                            <li>Responsive design</li>
+                        </ul>
+                    </div>
+                    <div class="phase">
+                        <div class="phase-title">Phase 2: Backend (4-6 months)</div>
+                        <ul class="phase-items">
+                            <li>Node.js/Python/Java</li>
+                            <li>Databases, APIs</li>
+                            <li>Authentication</li>
+                        </ul>
+                    </div>
+                    <div class="phase">
+                        <div class="phase-title">Phase 3: DevOps (3-4 months)</div>
+                        <ul class="phase-items">
+                            <li>Docker, deployment</li>
+                            <li>Cloud services</li>
+                            <li>Full-stack projects</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Developer -->
+            <div class="roadmap-card">
+                <div class="roadmap-icon">📱</div>
+                <h2 class="roadmap-title">Mobile Developer</h2>
+                <p class="roadmap-duration">8-12 Months • Intermediate</p>
+                <p class="roadmap-description">
+                    Build native and cross-platform mobile applications for iOS and Android.
+                </p>
+                <div class="phases">
+                    <div class="phase">
+                        <div class="phase-title">Phase 1: Foundations (2-3 months)</div>
+                        <ul class="phase-items">
+                            <li>Mobile development basics</li>
+                            <li>Choose platform (Flutter/React Native)</li>
+                            <li>UI/UX principles</li>
+                        </ul>
+                    </div>
+                    <div class="phase">
+                        <div class="phase-title">Phase 2: Advanced (3-4 months)</div>
+                        <ul class="phase-items">
+                            <li>State management</li>
+                            <li>API integration</li>
+                            <li>Local storage</li>
+                        </ul>
+                    </div>
+                    <div class="phase">
+                        <div class="phase-title">Phase 3: Production (3-5 months)</div>
+                        <ul class="phase-items">
+                            <li>App optimization</li>
+                            <li>Testing, debugging</li>
+                            <li>App store deployment</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DevOps Engineer -->
+            <div class="roadmap-card">
+                <div class="roadmap-icon">🔄</div>
+                <h2 class="roadmap-title">DevOps Engineer</h2>
+                <p class="roadmap-duration">10-15 Months • Advanced</p>
+                <p class="roadmap-description">
+                    Master infrastructure, automation, and deployment pipelines.
+                </p>
+                <div class="phases">
+                    <div class="phase">
+                        <div class="phase-title">Phase 1: Foundations (3-4 months)</div>
+                        <ul class="phase-items">
+                            <li>Linux, networking basics</li>
+                            <li>Git, scripting (Bash/Python)</li>
+                            <li>CI/CD concepts</li>
+                        </ul>
+                    </div>
+                    <div class="phase">
+                        <div class="phase-title">Phase 2: Tools (4-6 months)</div>
+                        <ul class="phase-items">
+                            <li>Docker, Kubernetes</li>
+                            <li>Jenkins, GitHub Actions</li>
+                            <li>Terraform, Ansible</li>
+                        </ul>
+                    </div>
+                    <div class="phase">
+                        <div class="phase-title">Phase 3: Cloud (3-5 months)</div>
+                        <ul class="phase-items">
+                            <li>AWS/Azure/GCP</li>
+                            <li>Monitoring, logging</li>
+                            <li>Security best practices</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- More Coming Soon -->
+            <div class="roadmap-card">
+                <div class="coming-soon">
+                    <h3>🗺️ More Roadmaps Coming Soon!</h3>
+                    <p>Data Science, AI/ML Engineer, Cloud Architect, and more career paths coming soon.</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(0,255,255,0.3);">
+            <p style="color: #888;">
+                Need a custom roadmap? 
+                <a href="mailto:dev@shramkavach.com" style="color: #00ffff; text-decoration: none;">Contact us</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

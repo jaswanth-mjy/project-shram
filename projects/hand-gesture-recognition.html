@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hand Gesture Recognition - Real-time AI-powered computer vision system">
+    <title>Hand Gesture Recognition | Project Shram</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Mono', monospace;
+            background: #000;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Background Effects */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 255, 255, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(0, 255, 136, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 2px solid #00ffff;
+            margin-bottom: 3rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #00ffff;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid #00ffff;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateX(-5px);
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #00ffff;
+            margin: 1rem 0;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .subtitle {
+            color: #00ff88;
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        .badges {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #00ffff;
+        }
+
+        /* GitHub Button */
+        .github-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #00ffff 0%, #00ff88 100%);
+            color: #000;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-decoration: none;
+            margin: 2rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+
+        .github-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 30px rgba(0, 255, 255, 0.5);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            color: #00ffff;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            color: #888;
+            margin-top: 0.5rem;
+        }
+
+        /* Section */
+        .section {
+            margin: 3rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #00ffff;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::before {
+            content: '> ';
+            color: #00ff88;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            padding: 1.5rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: #00ffff;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            color: #00ffff;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-description {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Gestures Table */
+        .gestures-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .gesture-item {
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .gesture-item:hover {
+            border-color: #00ffff;
+            background: rgba(0, 255, 255, 0.1);
+        }
+
+        .gesture-emoji {
+            font-size: 2rem;
+        }
+
+        .gesture-info h4 {
+            color: #00ffff;
+            margin-bottom: 0.3rem;
+        }
+
+        .gesture-info p {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        /* Terminal Box */
+        .terminal-box {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .code-block {
+            background: rgba(0, 255, 255, 0.05);
+            border-left: 3px solid #00ffff;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+        }
+
+        .command-line {
+            color: #888;
+            margin: 0.5rem 0;
+        }
+
+        .command-line::before {
+            content: '$ ';
+            color: #00ffff;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .tech-item {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid #00ff88;
+            padding: 0.7rem 1.2rem;
+            border-radius: 20px;
+            color: #00ff88;
+            font-size: 0.9rem;
+        }
+
+        /* List Styles */
+        ul {
+            list-style: none;
+            padding-left: 1rem;
+        }
+
+        ul li {
+            color: #888;
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        ul li::before {
+            content: '→';
+            color: #00ffff;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .features-grid,
+            .gestures-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="grid-overlay"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+            <h1>🤚 Hand Gesture Recognition</h1>
+            <p class="subtitle">Real-time AI-powered computer vision for intuitive human-computer interaction</p>
+            
+            <div class="badges">
+                <span class="badge">Python 3.7+</span>
+                <span class="badge">OpenCV 4.8+</span>
+                <span class="badge">MediaPipe 0.10+</span>
+                <span class="badge">MIT License</span>
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <a href="https://github.com/jaswanth-mjy/hand-gesture-recognition" target="_blank" class="github-button">
+                    ⭐ View on GitHub
+                </a>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">9+</div>
+                <div class="stat-label">Gesture Types</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">30+</div>
+                <div class="stat-label">FPS Real-time</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">95%</div>
+                <div class="stat-label">Accuracy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">&lt;50ms</div>
+                <div class="stat-label">Latency</div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <section class="section">
+            <h2 class="section-title">Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤚</div>
+                    <h3 class="feature-title">Real-time Hand Detection</h3>
+                    <p class="feature-description">Uses MediaPipe for accurate hand tracking with 21 landmark points per hand</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Multiple Gesture Recognition</h3>
+                    <p class="feature-description">Supports 9+ different hand gestures including thumbs up, peace sign, fist, and more</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3 class="feature-title">ML-Based Training</h3>
+                    <p class="feature-description">Train custom gestures with machine learning using Random Forest classifier</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3 class="feature-title">Interactive Applications</h3>
+                    <p class="feature-description">Control computer, play games, and automate tasks with hand gestures</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎭</div>
+                    <h3 class="feature-title">Demo Mode</h3>
+                    <p class="feature-description">Test gesture recognition without camera access for demonstrations</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Debug Tools</h3>
+                    <p class="feature-description">Visualize finger detection and gesture analysis in real-time</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Supported Gestures -->
+        <section class="section">
+            <h2 class="section-title">Supported Gestures</h2>
+            <div class="gestures-grid">
+                <div class="gesture-item">
+                    <span class="gesture-emoji">✊</span>
+                    <div class="gesture-info">
+                        <h4>Fist</h4>
+                        <p>All fingers closed</p>
+                    </div>
+                </div>
+                <div class="gesture-item">
+                    <span class="gesture-emoji">👍</span>
+                    <div class="gesture-info">
+                        <h4>Thumbs Up</h4>
+                        <p>Only thumb extended</p>
+                    </div>
+                </div>
+                <div class="gesture-item">
+                    <span class="gesture-emoji">👉</span>
+                    <div class="gesture-info">
+                        <h4>Pointing</h4>
+                        <p>Only index finger</p>
+                    </div>
+                </div>
+                <div class="gesture-item">
+                    <span class="gesture-emoji">✌️</span>
+                    <div class="gesture-info">
+                        <h4>Peace Sign / Two</h4>
+                        <p>Index + middle fingers</p>
+                    </div>
+                </div>
+                <div class="gesture-item">
+                    <span class="gesture-emoji">🔫</span>
+                    <div class="gesture-info">
+                        <h4>Gun</h4>
+                        <p>Thumb + index fingers</p>
+                    </div>
+                </div>
+                <div class="gesture-item">
+                    <span class="gesture-emoji">🤟</span>
+                    <div class="gesture-info">
+                        <h4>Rock On</h4>
+                        <p>Thumb + pinky fingers</p>
+                    </div>
+                </div>
+                <div class="gesture-item">
+                    <span class="gesture-emoji">3️⃣</span>
+                    <div class="gesture-info">
+                        <h4>Three</h4>
+                        <p>Index + middle + ring</p>
+                    </div>
+                </div>
+                <div class="gesture-item">
+                    <span class="gesture-emoji">4️⃣</span>
+                    <div class="gesture-info">
+                        <h4>Four</h4>
+                        <p>All fingers except thumb</p>
+                    </div>
+                </div>
+                <div class="gesture-item">
+                    <span class="gesture-emoji">✋</span>
+                    <div class="gesture-info">
+                        <h4>Open Palm</h4>
+                        <p>All fingers extended</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Installation -->
+        <section class="section">
+            <h2 class="section-title">Installation</h2>
+            <div class="terminal-box">
+                <div class="terminal-header">
+                    <div class="terminal-dot dot-red"></div>
+                    <div class="terminal-dot dot-yellow"></div>
+                    <div class="terminal-dot dot-green"></div>
+                </div>
+                <div class="command-line">git clone https://github.com/jaswanth-mjy/hand-gesture-recognition.git</div>
+                <div class="command-line">cd hand-gesture-recognition</div>
+                <div class="command-line">pip install -r requirements.txt</div>
+                <div class="command-line">python3 main.py</div>
+            </div>
+        </section>
+
+        <!-- Technical Stack -->
+        <section class="section">
+            <h2 class="section-title">Tech Stack</h2>
+            <div class="tech-stack">
+                <span class="tech-item">Python 3.7+</span>
+                <span class="tech-item">OpenCV (Computer Vision)</span>
+                <span class="tech-item">MediaPipe (Hand Detection)</span>
+                <span class="tech-item">NumPy (Numerical Computation)</span>
+                <span class="tech-item">scikit-learn (Machine Learning)</span>
+                <span class="tech-item">PyAutoGUI (System Control)</span>
+            </div>
+        </section>
+
+        <!-- Applications -->
+        <section class="section">
+            <h2 class="section-title">Applications</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">💻</div>
+                    <h3 class="feature-title">Computer Control</h3>
+                    <p class="feature-description">Control mouse cursor, keyboard inputs, system volume, and brightness with hand gestures</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3 class="feature-title">Interactive Game</h3>
+                    <p class="feature-description">Play Rock Paper Scissors and other gesture-based games</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3 class="feature-title">Custom Training</h3>
+                    <p class="feature-description">Collect data and train ML models for custom gesture recognition</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Details -->
+        <section class="section">
+            <h2 class="section-title">Technical Details</h2>
+            <div class="terminal-box">
+                <h3 style="color: #00ffff; margin-bottom: 1rem;">Architecture</h3>
+                <ul>
+                    <li><strong style="color: #00ff88;">MediaPipe:</strong> Hand landmark detection (21 points per hand)</li>
+                    <li><strong style="color: #00ff88;">OpenCV:</strong> Computer vision and camera handling</li>
+                    <li><strong style="color: #00ff88;">scikit-learn:</strong> Machine learning for custom gesture training</li>
+                    <li><strong style="color: #00ff88;">NumPy:</strong> Numerical computations for gesture analysis</li>
+                </ul>
+
+                <h3 style="color: #00ffff; margin: 2rem 0 1rem;">Performance</h3>
+                <ul>
+                    <li><strong style="color: #00ff88;">Speed:</strong> ~30 FPS real-time processing</li>
+                    <li><strong style="color: #00ff88;">Accuracy:</strong> 85-95% depending on lighting and hand position</li>
+                    <li><strong style="color: #00ff88;">Latency:</strong> &lt;50ms gesture recognition</li>
+                    <li><strong style="color: #00ff88;">Hands:</strong> Supports up to 2 hands simultaneously</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Quick Start -->
+        <section class="section">
+            <h2 class="section-title">Quick Start</h2>
+            <div class="code-block">
+                <code>
+from gesture_recognition import HandGestureRecognizer<br><br>
+
+recognizer = HandGestureRecognizer()<br>
+recognizer.run_camera()
+                </code>
+            </div>
+        </section>
+
+        <!-- Troubleshooting -->
+        <section class="section">
+            <h2 class="section-title">Troubleshooting</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4 style="color: #00ffff;">Camera Issues</h4>
+                    <ul style="margin-top: 1rem;">
+                        <li>Grant camera permissions in system settings</li>
+                        <li>Ensure no other apps are using the camera</li>
+                        <li>Try different camera index (0, 1, 2...)</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h4 style="color: #00ffff;">Performance Issues</h4>
+                    <ul style="margin-top: 1rem;">
+                        <li>Improve lighting conditions</li>
+                        <li>Clean camera lens</li>
+                        <li>Close other applications</li>
+                        <li>Reduce video resolution</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h4 style="color: #00ffff;">Recognition Issues</h4>
+                    <ul style="margin-top: 1rem;">
+                        <li>Position hand clearly in view</li>
+                        <li>Avoid complex backgrounds</li>
+                        <li>Maintain steady hand positions</li>
+                        <li>Use debug mode to see detection</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- GitHub CTA -->
+        <section class="section" style="text-align: center; padding: 3rem 0;">
+            <h2 class="section-title" style="border: none;">Ready to Get Started?</h2>
+            <p style="color: #888; margin: 1rem 0;">Clone the repository and start building gesture-controlled applications!</p>
+            <a href="https://github.com/jaswanth-mjy/hand-gesture-recognition" target="_blank" class="github-button">
+                ⭐ View on GitHub
+            </a>
+        </section>
+
+        <!-- Footer -->
+        <footer style="text-align: center; padding: 2rem 0; border-top: 1px solid rgba(0,255,255,0.3); margin-top: 3rem;">
+            <p style="color: #888;">Made with ❤️ for the computer vision and gesture recognition community</p>
+            <p style="color: #00ffff; margin-top: 0.5rem;">
+                <a href="../index.html" style="color: #00ffff; text-decoration: none;">← Back to Project Shram</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

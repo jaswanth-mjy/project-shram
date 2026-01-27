@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn Programming - Project Shram">
+    <title>Learn | Project Shram</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Mono', monospace;
+            background: #000;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 255, 255, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(0, 255, 136, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 2px solid #00ffff;
+            margin-bottom: 3rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #00ffff;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid #00ffff;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateX(-5px);
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #00ffff;
+            margin: 1rem 0;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .learning-paths {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .path-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .path-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #00ffff, #00ff88);
+        }
+
+        .path-card:hover {
+            border-color: #00ffff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+        }
+
+        .path-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .path-title {
+            color: #00ffff;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .path-level {
+            color: #00ff88;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .path-description {
+            color: #888;
+            margin: 1rem 0;
+            line-height: 1.8;
+        }
+
+        .topics-list {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+
+        .topics-list li {
+            color: #666;
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .topics-list li::before {
+            content: '→';
+            color: #00ffff;
+            position: absolute;
+            left: 0;
+        }
+
+        .coming-soon {
+            text-align: center;
+            padding: 3rem;
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px dashed rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .coming-soon h3 {
+            color: #00ffff;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .learning-paths {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="grid-overlay"></div>
+
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-link">← Back to Home</a>
+            <h1>&lt;LEARN /&gt;</h1>
+            <p class="subtitle">Comprehensive learning resources for developers of all levels</p>
+        </div>
+
+        <div class="learning-paths">
+            <!-- Python -->
+            <div class="path-card">
+                <div class="path-icon">🐍</div>
+                <h2 class="path-title">Python Programming</h2>
+                <p class="path-level">Beginner to Advanced</p>
+                <p class="path-description">
+                    Master Python from basics to advanced concepts. Perfect for beginners and experienced developers.
+                </p>
+                <ul class="topics-list">
+                    <li>Basics: Variables, data types, control flow</li>
+                    <li>Intermediate: OOP, file handling, modules</li>
+                    <li>Advanced: Decorators, generators, async/await</li>
+                    <li>Hands-on coding exercises</li>
+                </ul>
+            </div>
+
+            <!-- JavaScript -->
+            <div class="path-card">
+                <div class="path-icon">⚡</div>
+                <h2 class="path-title">JavaScript & Node.js</h2>
+                <p class="path-level">Beginner to Advanced</p>
+                <p class="path-description">
+                    Learn modern JavaScript, ES6+, and Node.js for full-stack development.
+                </p>
+                <ul class="topics-list">
+                    <li>Basics: Variables, functions, DOM manipulation</li>
+                    <li>ES6+: Arrow functions, promises, async/await</li>
+                    <li>Node.js: Express, APIs, database integration</li>
+                    <li>Real-world projects</li>
+                </ul>
+            </div>
+
+            <!-- React -->
+            <div class="path-card">
+                <div class="path-icon">⚛️</div>
+                <h2 class="path-title">React Development</h2>
+                <p class="path-level">Intermediate</p>
+                <p class="path-description">
+                    Build modern web applications with React, hooks, and state management.
+                </p>
+                <ul class="topics-list">
+                    <li>Components, props, state</li>
+                    <li>React Hooks</li>
+                    <li>Context API & Redux</li>
+                    <li>React Router & optimization</li>
+                </ul>
+            </div>
+
+            <!-- Data Structures & Algorithms -->
+            <div class="path-card">
+                <div class="path-icon">🧮</div>
+                <h2 class="path-title">DSA (Data Structures & Algorithms)</h2>
+                <p class="path-level">Intermediate to Advanced</p>
+                <p class="path-description">
+                    Master essential data structures and algorithms for coding interviews.
+                </p>
+                <ul class="topics-list">
+                    <li>Arrays, linked lists, stacks, queues</li>
+                    <li>Trees, graphs, hash tables</li>
+                    <li>Sorting & searching algorithms</li>
+                    <li>Dynamic programming</li>
+                </ul>
+            </div>
+
+            <!-- Java -->
+            <div class="path-card">
+                <div class="path-icon">☕</div>
+                <h2 class="path-title">Java Programming</h2>
+                <p class="path-level">Beginner to Advanced</p>
+                <p class="path-description">
+                    Learn Java for enterprise applications, Android development, and backend systems.
+                </p>
+                <ul class="topics-list">
+                    <li>Basics: OOP, inheritance, polymorphism</li>
+                    <li>Collections, generics, exception handling</li>
+                    <li>Multithreading, streams, lambda expressions</li>
+                    <li>Spring Boot & microservices</li>
+                </ul>
+            </div>
+
+            <!-- More Coming Soon -->
+            <div class="path-card">
+                <div class="coming-soon">
+                    <h3>📚 More Learning Paths Coming Soon!</h3>
+                    <p>We're creating comprehensive tutorials for more languages and frameworks.</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(0,255,255,0.3);">
+            <p style="color: #888;">
+                Have a tutorial suggestion? 
+                <a href="mailto:dev@shramkavach.com" style="color: #00ffff; text-decoration: none;">Let us know</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

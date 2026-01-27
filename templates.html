@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Code Templates - Project Shram">
+    <title>Templates | Project Shram</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Mono', monospace;
+            background: #000;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 255, 255, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(0, 255, 136, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 2px solid #00ffff;
+            margin-bottom: 3rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #00ffff;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid #00ffff;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateX(-5px);
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #00ffff;
+            margin: 1rem 0;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .category-btn {
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            color: #00ffff;
+            padding: 0.7rem 1.5rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: #00ffff;
+        }
+
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .template-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .template-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #00ffff, #00ff88);
+        }
+
+        .template-card:hover {
+            border-color: #00ffff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+        }
+
+        .template-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .template-title {
+            color: #00ffff;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .template-type {
+            color: #00ff88;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .template-description {
+            color: #888;
+            margin: 1rem 0;
+            line-height: 1.8;
+        }
+
+        .template-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .tag {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            color: #00ffff;
+        }
+
+        .template-features {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+
+        .template-features li {
+            color: #666;
+            padding: 0.3rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .template-features li::before {
+            content: '✓';
+            color: #00ff88;
+            position: absolute;
+            left: 0;
+        }
+
+        .coming-soon {
+            text-align: center;
+            padding: 3rem;
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px dashed rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .coming-soon h3 {
+            color: #00ffff;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .templates-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="grid-overlay"></div>
+
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-link">← Back to Home</a>
+            <h1>&lt;TEMPLATES /&gt;</h1>
+            <p class="subtitle">Ready-to-use code templates to kickstart your projects</p>
+        </div>
+
+        <div class="categories">
+            <button class="category-btn active">All Templates</button>
+            <button class="category-btn">Web Apps</button>
+            <button class="category-btn">Landing Pages</button>
+            <button class="category-btn">Dashboards</button>
+            <button class="category-btn">Backend</button>
+            <button class="category-btn">Mobile</button>
+        </div>
+
+        <div class="templates-grid">
+            <!-- React Landing Page -->
+            <div class="template-card">
+                <div class="template-icon">🎨</div>
+                <h2 class="template-title">Modern Landing Page</h2>
+                <p class="template-type">Frontend • React</p>
+                <p class="template-description">
+                    Beautiful, responsive landing page template with smooth animations and modern design.
+                </p>
+                <div class="template-tags">
+                    <span class="tag">React</span>
+                    <span class="tag">Tailwind CSS</span>
+                    <span class="tag">Framer Motion</span>
+                </div>
+                <ul class="template-features">
+                    <li>Fully responsive design</li>
+                    <li>Dark/Light mode</li>
+                    <li>SEO optimized</li>
+                    <li>Contact form included</li>
+                </ul>
+            </div>
+
+            <!-- Dashboard Template -->
+            <div class="template-card">
+                <div class="template-icon">📊</div>
+                <h2 class="template-title">Admin Dashboard</h2>
+                <p class="template-type">Full Stack • React + Node.js</p>
+                <p class="template-description">
+                    Complete admin dashboard with charts, tables, and user management.
+                </p>
+                <div class="template-tags">
+                    <span class="tag">React</span>
+                    <span class="tag">Node.js</span>
+                    <span class="tag">MongoDB</span>
+                    <span class="tag">Chart.js</span>
+                </div>
+                <ul class="template-features">
+                    <li>User authentication</li>
+                    <li>Real-time charts</li>
+                    <li>CRUD operations</li>
+                    <li>Role-based access</li>
+                </ul>
+            </div>
+
+            <!-- REST API Template -->
+            <div class="template-card">
+                <div class="template-icon">🔌</div>
+                <h2 class="template-title">REST API Boilerplate</h2>
+                <p class="template-type">Backend • Node.js</p>
+                <p class="template-description">
+                    Production-ready REST API with authentication, validation, and best practices.
+                </p>
+                <div class="template-tags">
+                    <span class="tag">Express</span>
+                    <span class="tag">MongoDB</span>
+                    <span class="tag">JWT</span>
+                    <span class="tag">Docker</span>
+                </div>
+                <ul class="template-features">
+                    <li>JWT authentication</li>
+                    <li>Input validation</li>
+                    <li>Error handling</li>
+                    <li>API documentation</li>
+                </ul>
+            </div>
+
+            <!-- E-commerce -->
+            <div class="template-card">
+                <div class="template-icon">🛒</div>
+                <h2 class="template-title">E-commerce Starter</h2>
+                <p class="template-type">Full Stack • Next.js</p>
+                <p class="template-description">
+                    Complete e-commerce solution with cart, checkout, and payment integration.
+                </p>
+                <div class="template-tags">
+                    <span class="tag">Next.js</span>
+                    <span class="tag">Stripe</span>
+                    <span class="tag">Prisma</span>
+                    <span class="tag">PostgreSQL</span>
+                </div>
+                <ul class="template-features">
+                    <li>Product catalog</li>
+                    <li>Shopping cart</li>
+                    <li>Payment processing</li>
+                    <li>Order management</li>
+                </ul>
+            </div>
+
+            <!-- Portfolio Template -->
+            <div class="template-card">
+                <div class="template-icon">💼</div>
+                <h2 class="template-title">Developer Portfolio</h2>
+                <p class="template-type">Frontend • HTML/CSS/JS</p>
+                <p class="template-description">
+                    Stunning portfolio template to showcase your projects and skills.
+                </p>
+                <div class="template-tags">
+                    <span class="tag">HTML5</span>
+                    <span class="tag">CSS3</span>
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">Animations</span>
+                </div>
+                <ul class="template-features">
+                    <li>Project showcase</li>
+                    <li>Skills section</li>
+                    <li>Contact form</li>
+                    <li>Blog integration</li>
+                </ul>
+            </div>
+
+            <!-- More Coming Soon -->
+            <div class="template-card">
+                <div class="coming-soon">
+                    <h3>📦 More Templates Coming Soon!</h3>
+                    <p>SaaS templates, blog themes, mobile app starters, and more.</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(0,255,255,0.3);">
+            <p style="color: #888;">
+                Have a template to share? 
+                <a href="mailto:dev@shramkavach.com" style="color: #00ffff; text-decoration: none;">Submit it</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Category filter functionality
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

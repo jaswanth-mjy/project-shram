@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tech Info - Project Shram">
+    <title>Tech Info | Project Shram</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Mono', monospace;
+            background: #000;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 255, 255, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(0, 255, 136, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 2px solid #00ffff;
+            margin-bottom: 3rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #00ffff;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid #00ffff;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateX(-5px);
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #00ffff;
+            margin: 1rem 0;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .tech-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tech-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #00ffff, #00ff88);
+        }
+
+        .tech-card:hover {
+            border-color: #00ffff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+        }
+
+        .tech-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .tech-title {
+            color: #00ffff;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-category {
+            color: #00ff88;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .tech-description {
+            color: #888;
+            margin: 1rem 0;
+            line-height: 1.8;
+        }
+
+        .tech-topics {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+
+        .tech-topics li {
+            color: #666;
+            padding: 0.3rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .tech-topics li::before {
+            content: '→';
+            color: #00ffff;
+            position: absolute;
+            left: 0;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(0, 255, 136, 0.1) 100%);
+            border: 2px solid #00ffff;
+            border-radius: 8px;
+            color: #00ffff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-btn:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.2) 0%, rgba(0, 255, 136, 0.2) 100%);
+            border-color: #00ff88;
+            color: #00ff88;
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.3);
+        }
+
+        .cta-btn:hover::before {
+            left: 100%;
+        }
+
+        .tutorial-badge {
+            display: inline-block;
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .coming-soon {
+            text-align: center;
+            padding: 3rem;
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px dashed rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .coming-soon h3 {
+            color: #00ffff;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="grid-overlay"></div>
+
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-link">← Back to Home</a>
+            <h1>&lt;TECH_INFO /&gt;</h1>
+            <p class="subtitle">Comprehensive guides for technologies, frameworks, and tools</p>
+        </div>
+
+        <div class="tech-grid">
+            <!-- Git & GitHub -->
+            <div class="tech-card">
+                <div class="tech-icon">📦</div>
+                <span class="tutorial-badge">✨ INTERACTIVE TUTORIAL AVAILABLE</span>
+                <h2 class="tech-title">Git & GitHub</h2>
+                <p class="tech-category">Version Control</p>
+                <p class="tech-description">
+                    Master version control with Git and collaboration with GitHub. Complete interactive tutorial with 11 engaging lessons, progress tracking, and hands-on examples!
+                </p>
+                <ul class="tech-topics">
+                    <li>Basic commands (init, add, commit, push)</li>
+                    <li>Branching and merging strategies</li>
+                    <li>Working with remotes and GitHub</li>
+                    <li>Pull requests and code reviews</li>
+                    <li>Advanced workflows and best practices</li>
+                </ul>
+                <a href="tech-info/git-tutorial.html" class="cta-btn">
+                    🚀 Start Interactive Git Tutorial →
+                </a>
+            </div>
+
+            <!-- Docker -->
+            <div class="tech-card">
+                <div class="tech-icon">🐳</div>
+                <h2 class="tech-title">Docker</h2>
+                <p class="tech-category">Containerization</p>
+                <p class="tech-description">
+                    Learn containerization with Docker for consistent development environments.
+                </p>
+                <ul class="tech-topics">
+                    <li>Docker basics and images</li>
+                    <li>Containers and volumes</li>
+                    <li>Docker Compose</li>
+                    <li>Best practices</li>
+                </ul>
+            </div>
+
+            <!-- REST APIs -->
+            <div class="tech-card">
+                <div class="tech-icon">🔌</div>
+                <h2 class="tech-title">REST APIs</h2>
+                <p class="tech-category">Web Services</p>
+                <p class="tech-description">
+                    Design and build RESTful APIs for modern web applications.
+                </p>
+                <ul class="tech-topics">
+                    <li>REST principles and HTTP methods</li>
+                    <li>API design best practices</li>
+                    <li>Authentication (JWT, OAuth)</li>
+                    <li>Documentation with Swagger</li>
+                </ul>
+            </div>
+
+            <!-- SQL Databases -->
+            <div class="tech-card">
+                <div class="tech-icon">🗄️</div>
+                <h2 class="tech-title">SQL Databases</h2>
+                <p class="tech-category">Databases</p>
+                <p class="tech-description">
+                    Master SQL and relational database management systems.
+                </p>
+                <ul class="tech-topics">
+                    <li>SQL fundamentals (SELECT, JOIN, WHERE)</li>
+                    <li>Database design and normalization</li>
+                    <li>Indexing and optimization</li>
+                    <li>PostgreSQL, MySQL</li>
+                </ul>
+            </div>
+
+            <!-- MongoDB -->
+            <div class="tech-card">
+                <div class="tech-icon">🍃</div>
+                <h2 class="tech-title">MongoDB</h2>
+                <p class="tech-category">NoSQL Database</p>
+                <p class="tech-description">
+                    Learn NoSQL database design with MongoDB.
+                </p>
+                <ul class="tech-topics">
+                    <li>Document-based data modeling</li>
+                    <li>CRUD operations</li>
+                    <li>Aggregation pipeline</li>
+                    <li>Mongoose ODM</li>
+                </ul>
+            </div>
+
+            <!-- AWS -->
+            <div class="tech-card">
+                <div class="tech-icon">☁️</div>
+                <h2 class="tech-title">AWS (Amazon Web Services)</h2>
+                <p class="tech-category">Cloud Platform</p>
+                <p class="tech-description">
+                    Deploy and scale applications on AWS cloud platform.
+                </p>
+                <ul class="tech-topics">
+                    <li>EC2, S3, RDS basics</li>
+                    <li>Lambda serverless functions</li>
+                    <li>API Gateway</li>
+                    <li>CloudFormation</li>
+                </ul>
+            </div>
+
+            <!-- Redis -->
+            <div class="tech-card">
+                <div class="tech-icon">⚡</div>
+                <h2 class="tech-title">Redis</h2>
+                <p class="tech-category">Caching & Data Store</p>
+                <p class="tech-description">
+                    Learn in-memory data structure store for caching and real-time applications.
+                </p>
+                <ul class="tech-topics">
+                    <li>Basic data structures</li>
+                    <li>Caching strategies</li>
+                    <li>Pub/Sub messaging</li>
+                    <li>Session management</li>
+                </ul>
+            </div>
+
+            <!-- Kubernetes -->
+            <div class="tech-card">
+                <div class="tech-icon">☸️</div>
+                <h2 class="tech-title">Kubernetes</h2>
+                <p class="tech-category">Container Orchestration</p>
+                <p class="tech-description">
+                    Master container orchestration for scalable applications.
+                </p>
+                <ul class="tech-topics">
+                    <li>Pods, deployments, services</li>
+                    <li>ConfigMaps and secrets</li>
+                    <li>Scaling and load balancing</li>
+                    <li>Helm charts</li>
+                </ul>
+            </div>
+
+            <!-- GraphQL -->
+            <div class="tech-card">
+                <div class="tech-icon">📊</div>
+                <h2 class="tech-title">GraphQL</h2>
+                <p class="tech-category">API Query Language</p>
+                <p class="tech-description">
+                    Build flexible APIs with GraphQL query language.
+                </p>
+                <ul class="tech-topics">
+                    <li>Schema and types</li>
+                    <li>Queries and mutations</li>
+                    <li>Resolvers</li>
+                    <li>Apollo Server/Client</li>
+                </ul>
+            </div>
+
+            <!-- More Coming Soon -->
+            <div class="tech-card">
+                <div class="coming-soon">
+                    <h3>🛠️ More Tech Guides Coming Soon!</h3>
+                    <p>Comprehensive guides for more technologies and frameworks.</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(0,255,255,0.3);">
+            <p style="color: #888;">
+                Have a tech topic request? 
+                <a href="mailto:dev@shramkavach.com" style="color: #00ffff; text-decoration: none;">Let us know</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
